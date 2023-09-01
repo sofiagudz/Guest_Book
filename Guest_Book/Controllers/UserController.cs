@@ -30,7 +30,7 @@ namespace Guest_Book.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
             }
-            return View(reg);
+            return RedirectToAction("Login", "User");
         }
 
         public ActionResult Login()
@@ -58,7 +58,7 @@ namespace Guest_Book.Controllers
                 var user = users.First();
                 HttpContext.Session.SetString("Login", user.Name);
             }
-            return View(login);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

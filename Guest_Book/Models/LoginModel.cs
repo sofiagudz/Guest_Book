@@ -4,10 +4,10 @@ namespace Guest_Book.Models
 {
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле является обязательным!")]
         public string? Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле является обязательным!")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
     }
