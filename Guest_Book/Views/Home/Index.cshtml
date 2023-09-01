@@ -1,0 +1,83 @@
+﻿@model Guest_Book.Models.Message
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Сообщения</h1>
+<br /><br />
+@if (Context.Session.GetString("Login") != null)
+{
+        <form asp-action="AddMessage">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">            
+                <input asp-for="Message_" class="form-control" />
+                <span asp-validation-for="Message_" class="text-danger"></span>
+            </div><br/>
+
+        <div class="form-group">
+            <input type="submit" value="Отправить" class="btn btn-primary" />
+        </div>
+        <br>
+        </form>
+
+    @if(ViewBag.Messages != null)
+{
+    @foreach (var g in ViewBag.Messages)
+{
+    <div style="border-radius: 15px; border: 5px solid #3fc5eb; background-color: #4481eb; width: 500px; text-align: center;">
+       <table style="margin: 15px; margin-left: 100px">
+        <tr>
+            <td style="width: 100px">
+                @g.UserName
+            </td>
+            <td style="width: 100px"></td>
+            <td style="width: 100px"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px"></td>
+            <td style="width: 100px">@g.Message_</td>
+            <td style="width: 140px"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px"></td>
+            <td colspan = "3">@g.MessageDate</td>
+            
+        </tr>
+    </table>
+    </div>
+    <br />
+}
+    }
+}
+else
+{
+    @if(ViewBag.Messages != null)
+{
+    @foreach (var g in ViewBag.Messages)
+{
+    <div style="border-radius: 15px; border: 5px solid #3fc5eb; background-color: #4481eb; width: 500px; text-align: center;">
+       <table style="margin: 15px; margin-left: 50px">
+        <tr>
+            <td style="width: 100px">
+                @g.UserName
+            </td>
+            <td style="width: 100px"></td>
+            <td style="width: 100px"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px"></td>
+            <td style="width: 100px">@g.Message_</td>
+            <td style="width: 140px"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px"></td>
+            <td colspan = "3">@g.MessageDate</td>
+            
+        </tr>
+    </table>
+    </div>
+    <br />
+}
+}
+}

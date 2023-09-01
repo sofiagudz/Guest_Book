@@ -1,0 +1,64 @@
+﻿@model Guest_Book.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="row">
+    <div class="col-md-4">
+        <br />
+        <form asp-action="Registration">
+            @if (this.Context.Session.GetString("Login") == null){
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PasswordConfirm" class="control-label"></label>
+                <input asp-for="PasswordConfirm" class="form-control" />
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Регистрация" class="btn btn-primary" />
+            </div>
+            <br />
+            }
+            else{
+                <div>
+                            <div>
+                                Вы уже авторизованы, чтобы создать новую учетную запись вам нужно выйти из этой!
+                            </div>
+                            <br/>
+                    @Html.ActionLink("На главную", "Index", "Home")
+                    <br/>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+   
+</body>
+</html>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
