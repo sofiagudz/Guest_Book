@@ -26,7 +26,7 @@
     @foreach (var g in ViewBag.Messages)
 {
     <div style="border-radius: 15px; border: 5px solid #3fc5eb; background-color: #4481eb; width: 500px; text-align: center;">
-       <table style="margin: 15px; margin-left: 100px">
+       <table style="margin: 15px; margin-left: 50px">
         <tr>
             <td style="width: 100px">
                 @g.UserName
@@ -80,4 +80,9 @@ else
     <br />
 }
 }
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
