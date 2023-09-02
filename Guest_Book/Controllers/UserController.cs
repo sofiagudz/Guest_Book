@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Guest_Book.Models;
+using Guest_Book.Repository;
 
 namespace Guest_Book.Controllers
 {
     public class UserController : Controller
     {
-        Guest_BookContext db;
-        public UserController(Guest_BookContext context)
+        IRepository repo;
+
+        public UserController(IRepository r)
         {
-            db = context;
+            repo = r;
         }
 
         public ActionResult Registration()
@@ -27,8 +29,8 @@ namespace Guest_Book.Controllers
                 User user = new User();
                 user.Name = reg.Name;
                 user.Password = reg.Password;
-                db.Users.Add(user);
-                db.SaveChanges();
+                repo.AddUser(user);
+                repo.Save();
             }
             return RedirectToAction("Login", "User");
         }
@@ -44,6 +46,8 @@ namespace Guest_Book.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var user = repo.UsersToList();
+               
                 if(db.Users.ToList().Count == 0)
                 {
                     ModelState.AddModelError("", "Wrong login or password!");

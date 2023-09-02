@@ -1,4 +1,5 @@
 ﻿using Guest_Book.Models;
+using Guest_Book.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,23 +7,21 @@ namespace Guest_Book.Controllers
 {
     public class HomeController : Controller
     {
-        Guest_BookContext db;
-        public HomeController(Guest_BookContext context)
+        //Guest_BookContext db;
+        //public HomeController(Guest_BookContext context)
+        //{
+        //    db = context;
+        //}
+        IRepository repo;
+
+        public HomeController(IRepository r)
         {
-            db = context;
+            repo = r;
         }
 
         public ActionResult Index()
         {
-            //if(HttpContext.Session.GetString("Login") != null)
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Login", "User");
-            //}
-            ViewBag.Messages = db.Messages.ToList();
+            ViewBag.Messages = repo.MessagesToList();
             return View();
         }
 
@@ -32,27 +31,21 @@ namespace Guest_Book.Controllers
             return RedirectToAction("Login", "User");
         }
 
-        public IActionResult AddMessage()
-        {
-            ViewBag.Messages = db.Messages.ToList();
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddMessage(Message message)
         {
             try
             {
-                var user = db.Users.Where(a => a.Name == HttpContext.Session.GetString("Login"));
-                foreach(var i in user)
-                {
-                    message.User = i;
-                }
+                //var user = db.Users.Where(a => a.Name == HttpContext.Session.GetString("Login"));
+                //foreach(var i in user)
+                //{
+                //    message.User = i;
+                //}
                 message.UserName = HttpContext.Session.GetString("Login");
                 message.MessageDate = DateTime.Now;
-                db.Add(message);
-                await db.SaveChangesAsync();
+                repo.AddMessage(message);
+                await repo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)

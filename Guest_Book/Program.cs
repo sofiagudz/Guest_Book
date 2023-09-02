@@ -1,4 +1,5 @@
 using Guest_Book.Models;
+using Guest_Book.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddSession();
 string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<Guest_BookContext>(options=>options.UseSqlServer(connection));
+
+builder.Services.AddScoped<IRepository, StudentRepository>();
 
 var app = builder.Build();
 
