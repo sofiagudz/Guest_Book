@@ -13,7 +13,7 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 
 builder.Services.AddDbContext<Guest_BookContext>(options=>options.UseSqlServer(connection));
 
-builder.Services.AddScoped<IRepository, StudentRepository>();
+builder.Services.AddScoped<IRepository, Guest_BookRepository>();
 
 var app = builder.Build();
 

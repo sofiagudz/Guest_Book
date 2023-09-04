@@ -37,11 +37,10 @@ namespace Guest_Book.Controllers
         {
             try
             {
-                //var user = db.Users.Where(a => a.Name == HttpContext.Session.GetString("Login"));
-                //foreach(var i in user)
-                //{
-                //    message.User = i;
-                //}
+                string login = HttpContext.Session.GetString("Login");
+                var user = await repo.FindUsersById(login);
+
+                message.User = user;
                 message.UserName = HttpContext.Session.GetString("Login");
                 message.MessageDate = DateTime.Now;
                 repo.AddMessage(message);

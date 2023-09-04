@@ -6,9 +6,10 @@ namespace Guest_Book.Repository
         Task<List<Message>> MessagesToList();
         Task AddMessage(Message message);
         Task Save();
-        Task<List<User>> FindUsersById();
+        Task<User> FindUserById(string str);
         Task AddUser(User user);
-        Task<List<User>> UsersToList();
-        Task<List<User>> CheckingLogin(LoginModel login);
+        Task<int> UsersCount();
+        Task<int> CheckingLoginCount(LoginModel login);
+        Task<User> CheckingLogin(LoginModel login);
     }
 }

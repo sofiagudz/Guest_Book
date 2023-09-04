@@ -42,24 +42,21 @@ namespace Guest_Book.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginModel login)
+        public async Task<ActionResult> Login(LoginModel login)
         {
             if (ModelState.IsValid)
             {
-                //var user = repo.UsersToList();
-               
-                if(db.Users.ToList().Count == 0)
+                if(repo.UsersCount == null)
                 {
                     ModelState.AddModelError("", "Wrong login or password!");
                     return View(login);
                 }
-                var users = db.Users.Where(a => a.Name == login.Name);
-                if(users.ToList().Count == 0)
+                var user = await repo.CheckingLogin(login);
+                if(repo.CheckingLoginCount(login) == null)
                 {
                     ModelState.AddModelError("", "Wrong login or password!");
                     return View(login);
                 }
-                var user = users.First();
                 HttpContext.Session.SetString("Login", user.Name);
             }
             return RedirectToAction("Index", "Home");

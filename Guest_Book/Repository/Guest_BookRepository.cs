@@ -29,10 +29,9 @@ namespace Guest_Book.Repository
             await db.SaveChangesAsync();
         }
 
-        public async Task<List<User>> FindUserById()
+        public async Task<User> FindUserById(string str)
         {
-            string user = HttpContext.Session.GetString("Login");
-            return await db.Users.Where(a => a.Name == HttpContext.Session.GetString("Login"));
+            return db.Users.FirstOrDefault(a => a.Name == str);
         }
 
         public async Task AddUser(User user)
@@ -40,15 +39,19 @@ namespace Guest_Book.Repository
             await db.Users.AddAsync(user);
         }
 
-        public async Task<List<User>> UsersToList()
+        public async Task<int> UsersCount()
         {
-            //return await db.Users.CountAsync();
-            return await db.Users.ToListAsync();
+            return await db.Users.CountAsync();
         }
 
-        public async Task<List<User>> CheckingLogin(LoginModel login)
+        public async Task<int> CheckingLoginCount(LoginModel login)
         {
-            return await db.Users.Where(a => a.Name == login.Name);
+            return await db.Users.Where(a => a.Name == login.Name).CountAsync();
+        }
+
+        public async Task<User> CheckingLogin(LoginModel login)
+        {
+            return db.Users.FirstOrDefault(a => a.Name == login.Name);
         }
     }
 }
